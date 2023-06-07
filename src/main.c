@@ -3,90 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rnauke <rnauke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/29 17:19:59 by akhodara          #+#    #+#             */
-/*   Updated: 2023/05/29 19:25:13 by rnauke           ###   ########.fr       */
+/*   Created: 2023/05/30 15:59:57 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/07 10:53:13 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	sig_interrupt(int signum, siginfo_t *sinfo, void *c)
+void	check_basic_vars(t_input *in)
 {
-	// implement behaviour
-	// terminate program
-	// new prompt
-	// return (0);
+	char	*aux;
+
+	aux = ft_getenv("PATH", in);
+	if (!aux)
+		update_env_var(in, "PATH=",
+			"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	else
+		free(aux);
+	aux = ft_getenv("SHLVL", in);
+	if (!aux)
+		update_env_var(in, "SHLVL=", "0");
+	else
+		free(aux);
+	check_basic_vars2(in);
 }
 
-void	sig_quit(int signum, siginfo_t *sinfo, void *c)
+void	init_structs(t_input *in, t_list **envp)
 {
-	// implement behaviour
-	// if typing command do nothing
-	// if command being executed -> quit program
-	// return (0);
+	in->env_list = envp;
+	in->user_in = NULL;
+	in->split_in = NULL;
+	in->cmd_path = NULL;
+	in->total_pipes = 0;
+	in->fd_in = 0;
+	in->fd_out = 0;
+	in->status = 0;
+	g_exit_status = 0;
 }
 
-void	sig_terminate(int signum, siginfo_t *sinfo, void *c)
+void	update_level(t_input *in)
 {
-	// implement behaviour
-	// exit the shell safely (free everything)
-	// return (0);
+	int		level;
+	char	*number;
+	char	*aux;	
+
+	aux = ft_getenv("SHLVL", in);
+	level = ft_atoi(aux);
+	if (level < 0)
+	{
+		ft_putstr_fd(SHELL, 2);
+		if (level == -1)
+			level++;
+		ft_putendl_fd(ERR_SHLVL, 2);
+	}
+	free(aux);
+	level++;
+	number = ft_itoa(level);
+	update_env_var(in, "SHLVL=", number);
+	free(number);
 }
 
-// check for errors
-void	init_signals(void)
+int	main(int argc, char **argv, char **environ)
 {
-	struct sigaction si;
-	struct sigaction sq;
-	struct sigaction st;
-	
-	si.sa_flags = SA_SIGINFO;
-	sq.sa_flags = SA_SIGINFO;
-	st.sa_flags = SA_SIGINFO;
-	si.sa_sigaction = sig_interrupt;
-	sq.sa_sigaction = sig_quit;
-	st.sa_sigaction = sig_terminate;
-	sigaction(SIGINT, &sig_interrupt, NULL);
-	sigaction(SIGQUIT, &sig_quit, NULL);
-	sigaction(SIGTERM, &sig_terminate, NULL);
-}
+	t_input	in;
+	t_list	*envp;
 
-
-
-void	init(t_shell *s)
-{
-	s->user = getenv("user");
-	init_signals();
-		
-}
-
-void	prompt(t_shell *s)
-{
-	s->prompt = readline("shell > ");
-	// if selfmade
-	
-}
-
-int	main(int argc, char **argv)
-{
-	t_shell	*shell;
-	// check args
-	if (argc != 1)
-		return (1);
-	// initialize
-	shell = malloc(sizeof(t_shell));
-	init(shell);
-	// check signals
-	
-	// prompt
-	prompt(shell);
-
-	// tokenize command
-	
-	// execute command
-
-	// free and exit
+	envp = NULL;
+	if (argc == 1)
+	{
+		init_env_list(&in, &envp, environ);
+		init_structs(&in, &envp);
+		check_basic_vars(&in);
+		update_level(&in);
+		while (1)
+		{
+			signal(SIGINT, handler);
+			signal(SIGQUIT, SIG_IGN);
+			in.status = 0;
+			read_input(&in);
+			unlink(".hd_tmp");
+		}
+	}
+	else
+	{
+		in.split_in = argv;
+		error_msg(&in, ERR_ARG, -1, 0);
+	}
 	return (0);
 }
