@@ -6,14 +6,13 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:00:27 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:47:32 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:54:54 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -27,6 +26,7 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <errno.h>
+# include "../libft/libftplus/libftplus.h"
 
 # define R_END 0
 # define W_END 1
@@ -55,49 +55,20 @@
 
 extern int	g_exit_status;
 
-typedef struct s_arg
-{
-	int		*quotes;
-	char	**arg;
-}	t_arg;
-
-typedef struct s_flags
-{
-	int	i;
-	int	j;
-	int	start;
-	int	count;
-	int	count_double;
-	int	single_q;
-	int	double_q;
-	int	global_q;
-	int	global_count;
-	int	global_sp;
-}	t_flags;
-
 typedef struct s_input
 {
-	int		fd[2][2];
 	int		status;
 	int		fd_in;
 	int		fd_out;
 	int		is_err;
-	int		is_infile;
-	int		is_outfile;
-	int		is_hdoc;
-	int		back_stdout;
-	int		path_unset;
 	int		total_pipes;
-	int		q_state_size;
-	int		*q_state;
-	char	*prompt;
 	char	*user_in;
 	char	*cmd_path;
-	char	**split_path;
 	char	**split_in;
 	char	**dup_env;
 	t_list	**env_list;
-	t_flags	f;
 }	t_input;
 
 int		main(int argc, char **argv, char **environ);
+
+#endif
