@@ -6,11 +6,33 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:59:57 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 10:53:13 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:28:53 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	g_exit_status;
+
+void	check_basic_vars2(t_input *in)
+{
+	char	*aux;
+
+	aux = ft_getenv("PWD", in);
+	if (!aux)
+	{
+		aux = getcwd(NULL, 0);
+		update_env_var(in, "PWD=", aux);
+		free(aux);
+	}
+	else
+		free(aux);
+	aux = ft_getenv("_", in);
+	if (!aux)
+		update_env_var(in, "_=", "env");
+	else
+		free(aux);
+}
 
 void	check_basic_vars(t_input *in)
 {
