@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:00:27 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/08 19:04:26 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:54:54 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,34 @@ typedef struct s_input
 	t_flags	f;
 }	t_input;
 
-
 int		main(int argc, char **argv, char **environ);
+void	update_level(t_input *in);
+void	init_structs(t_input *in, t_list **envp);
+void	check_basic_vars(t_input *in);
+void	check_basic_vars2(t_input *in);
+int		update_g_exit_status(char *ERR, int is_abs);
+int		error_msg(t_input *in, char *MSG, int n, int is_abs);
+int		check_error_pipes(t_input *in);
+int		check_errors_pipes_aux(t_input *in);
+void	check_quotes(t_input *in);
+void	update_env_var(t_input *in, char *var, char *value);
+int		pair_quotes(t_input *in);
+int		is_space(char *str);
+void	read_in_aux(t_input *in);
+void	input_work(t_input *in, char **user);
+void	read_input(t_input *in);
+int		char_sp(char c);
+int		is_builtin(t_input *in);
+void	delete_head(t_input *in);
+void	unset_from_list(t_input *in, char **var, int size_var);
+int		valid_id(char *str);
+void	export_aux(t_input *in, char **aux, int j);
+void	export(t_input *in);
+void	env(t_input *in, int is_export);
+char	*ft_getenv_aux(t_list *aux, char **var, int size_var);
+char	*ft_getenv(const char *str, t_input *in);
+void	init_basic_env(t_input *in, char **pwd);
+void	dup_env(t_input *in, char **environ);
+void	init_env_list(t_input *in, t_list **envp, char **environ);
 
 #endif
