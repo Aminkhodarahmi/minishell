@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:27:59 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:40:23 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:41:47 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 t_list	*ft_lstdup(t_list *aux)
 {

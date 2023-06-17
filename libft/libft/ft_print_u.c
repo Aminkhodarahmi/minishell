@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_free.c                                      :+:      :+:    :+:   */
+/*   ft_print_u.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:27:22 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:39 by akhodara         ###   ########.fr       */
+/*   Created: 2022/12/05 16:36:14 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/15 18:52:52 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "libft.h"
 
-void	ft_lst_free(t_list *lst)
+int	ft_print_u(unsigned int n)
 {
-	t_list	*tmp;
+	int		len;
+	char	*num;
 
-	while (lst != NULL)
+	len = 0;
+	if (n == 0)
+		len += write(1, "0", 1);
+	else
 	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
+		num = ft_uitoa(n);
+		ft_putstr_fd(num, 1);
+		len += ft_strlen(num);
+		free(num);
 	}
+	return (len);
 }

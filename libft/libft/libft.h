@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:54:09 by akhodara          #+#    #+#             */
-/*   Updated: 2023/05/22 21:12:57 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:18:41 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
@@ -34,6 +35,8 @@ void			*ft_calloc(size_t nmemb, size_t size);
 int				ft_isalnum(int c);
 
 int				ft_isalpha(int c);
+
+int				ft_strcmp(const char *str1, const char *str2);
 
 int				ft_isascii(int c);
 
@@ -116,5 +119,56 @@ char			*ft_strtrim(char const *s1, char const *set);
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 char			*get_next_line(int fd);
+
+char			*ft_uitoa(unsigned int n);
+
+
+
+t_list			*ft_new_node(void *content, size_t size);
+
+t_list			*ft_lstdup(t_list *lst);
+
+void			ft_lst_free(t_list *lst);
+
+void			ft_lst_sort(t_list **lst, int (*cmp)());
+
+void			free_matrix(char **matrix);
+
+void			print_matrix(char **matrix);
+
+int				matrix_len(char **matrix);
+
+char			**matrix_dup(char **matrix);
+
+char			**matrix_add_back(char **matrix, char *str);
+
+char			**list_to_matrix(t_list *lst);
+
+char			*del_str_pos(char *str, int n);
+
+char			**del_matrix_pos(char **matrix, int pos);
+
+
+void			ft_put_hex(unsigned int num, const char format);
+
+int				ft_print_hex(unsigned int num, const char format);
+
+void			ft_put_ptr(uintptr_t num);
+
+int				ft_print_ptr(unsigned long long ptr);
+
+int				ft_print_u(unsigned int n);
+
+int				check_type(char ch);
+
+unsigned int	ft_print_di(int d);
+
+unsigned int	ft_print_str(char *str);
+
+unsigned int	ft_amin(va_list vl, const char format);
+
+int				ft_printf(const char *format, ...);
+
+
 
 #endif

@@ -1,38 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_dup.c                                       :+:      :+:    :+:   */
+/*   ft_uitoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:29:50 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:42:09 by akhodara         ###   ########.fr       */
+/*   Created: 2022/12/05 16:37:46 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/15 19:00:45 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-
-char	**matrix_dup(char **matrix)
+#include "libft.h"
+//lengh of the number
+int	ft_len_num(unsigned	int n)
 {
-	char	**out;
-	int		size;
-	int		i;
+	int	len;
 
-	i = 0;
-	size = matrix_len(matrix);
-	out = malloc(sizeof(char *) * (size + 1));
-	if (!out)
-		return (NULL);
-	while (matrix[i])
+	len = 0;
+	if (n <= 0)
+		++len;
+	while (n != 0)
 	{
-		out[i] = ft_strdup(matrix[i]);
-		if (!out[i])
-		{
-			free_matrix(out);
-			return (NULL);
-		}
-		i++;
+		++len;
+		n = n / 10;
 	}
-	out[i] = NULL;
-	return (out);
+	return (len);
+}
+
+//unsigned int to ascci
+char	*ft_uitoa(unsigned int n)
+{
+	char	*num;
+	int		len;
+
+	len = ft_len_num(n);
+	num = malloc(sizeof(char) * (len + 1));
+	if (!num)
+		return (NULL);
+	num[len] = '\0';
+	while (n != 0)
+	{
+		--len;
+		num[len] = n % 10 + 48;
+		n = n / 10;
+	}
+	return (num);
 }

@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_free.c                                      :+:      :+:    :+:   */
+/*   args_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:27:22 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:39 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/09 18:13:26 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/09 18:13:57 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-void	ft_lst_free(t_list *lst)
+int	count_pipes(t_input *in)
 {
-	t_list	*tmp;
+	int	i;
 
-	while (lst != NULL)
+	i = 0;
+	in->total_pipes = 0;
+	while (in->split_in[i] != NULL)
 	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
+		if (!(ft_strncmp(in->split_in[i], "|", 2)) && in->q_state[i] == 0)
+			in->total_pipes++;
+		i++;
 	}
+	return (in->total_pipes);
 }

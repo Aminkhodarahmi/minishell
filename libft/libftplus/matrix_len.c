@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:30:15 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:41:09 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:42:14 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 int	matrix_len(char **matrix)
 {

@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:29:03 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:40:38 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:42:01 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 char	**list_to_matrix(t_list *lst)
 {

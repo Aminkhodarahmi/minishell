@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:26:16 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:39:59 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:41:20 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 char	**del_matrix_pos(char **matrix, int pos)
 {

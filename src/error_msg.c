@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:58:39 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 13:49:40 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/17 13:46:35 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,29 @@
 
 int	update_g_exit_status(char *ERR, int is_abs)
 {
-	// for error 126, 127, 258
+	if (!ft_strcmp(ERR, IS_DIR))
+		return (126);
+	else if (!ft_strcmp(ERR, ERR_PERM))
+	{
+		if (is_abs == 1)
+			return (126);
+	}
+	else if (!ft_strcmp(ERR, ERR_FILE))
+	{
+		if (is_abs == 1)
+			return (127);
+	}
+	else if (!ft_strcmp(ERR, ERR_CMD))
+		return (127);
+	else if (!ft_strcmp(ERR, ERR_SYNTAX))
+		return (258);
+	else if (!ft_strcmp(ERR, ERR_SYNTAX_PIPE))
+		return (258);
+	else if (!ft_strcmp(ERR, ERR_SYNTAX_IN))
+		return (258);
+	else if (!ft_strcmp(ERR, ERR_SYNTAX_OUT))
+		return (258);
+	return (1);
 }
 
 int	error_msg(t_input *in, char *MSG, int n, int is_abs)

@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:32:51 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:40:27 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:41:51 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 t_list	*ft_new_node(void *content, size_t size)
 {

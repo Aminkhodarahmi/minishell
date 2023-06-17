@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_free.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:27:22 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:39 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/09 17:19:22 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/09 17:19:24 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "libft.h"
 
-void	ft_lst_free(t_list *lst)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	t_list	*tmp;
+	unsigned char	*s1;
+	unsigned char	*s2;
 
-	while (lst != NULL)
+	s1 = (unsigned char *)str1;
+	s2 = (unsigned char *)str2;
+	if (*s1 == 0 || *s2 == 0)
+		return (*s1 - *s2);
+	while (*s1 && *s2)
 	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
 	}
+	return (*s1 - *s2);
 }

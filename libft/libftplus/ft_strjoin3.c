@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:28:44 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:40:31 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:41:57 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 char	*ft_strjoin3(const char *s1, const char *s2, const char *s3)
 {

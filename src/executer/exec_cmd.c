@@ -1,25 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_free.c                                      :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:27:22 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:39 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/09 19:30:51 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/09 19:30:53 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-
-void	ft_lst_free(t_list *lst)
-{
-	t_list	*tmp;
-
-	while (lst != NULL)
-	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
-	}
-}

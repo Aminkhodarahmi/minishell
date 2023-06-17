@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:29:32 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:40:42 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:42:05 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 char	**matrix_add_back(char **matrix, char *str)
 {

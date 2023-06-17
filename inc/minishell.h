@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:00:27 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 13:54:54 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:16:35 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <errno.h>
-# include "../libft/libftplus/libftplus.h"
+# include "../libft/libft/libft.h"
 
 # define R_END 0
 # define W_END 1
@@ -55,14 +55,24 @@
 
 extern int	g_exit_status;
 
+typedef struct s_arg
+{
+	int		*quotes;
+	char	**arg;
+}	t_arg;
+
 typedef struct s_flags
 {
 	int	i;
 	int	j;
+	int	start;
 	int	count;
 	int	count_double;
 	int	single_q;
 	int	double_q;
+	int	global_q;
+	int	global_count;
+	int	global_sp;
 }	t_flags;
 
 typedef struct s_input

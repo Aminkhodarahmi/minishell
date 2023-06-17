@@ -6,11 +6,40 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:57:05 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 10:57:37 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:23:31 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	print_export(t_list **lst, int i)
+{
+	t_list	*aux;
+	char	*str;
+
+	aux = *lst;
+	while (aux)
+	{
+		i = 0;
+		str = (char *)aux->content;
+		ft_putstr_fd("export ", 1);
+		while (str[i] != '=' && str[i] != '\0')
+		{
+			ft_putchar_fd(str[i], 1);
+			i++;
+		}
+		if (str[i] != '\0')
+		{
+			ft_putstr_fd("=\"", 1);
+			while (str[++i] != '\0')
+				ft_putchar_fd(str[i], 1);
+			ft_putendl_fd("\"", 1);
+		}
+		else
+			write(1, "\n", 1);
+		aux = aux->next;
+	}
+}
 
 void	env(t_input *in, int is_export)
 {

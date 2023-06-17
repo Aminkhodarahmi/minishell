@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:31:30 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/07 12:40:10 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:41:35 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftplus.h"
+#include "../libft/libft.h"
 
 void	free_matrix(char **matrix)
 {
