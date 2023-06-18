@@ -6,7 +6,7 @@
 #    By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/27 15:35:56 by akhodara          #+#    #+#              #
-#    Updated: 2023/06/15 19:18:04 by akhodara         ###   ########.fr        #
+#    Updated: 2023/06/17 19:11:45 by akhodara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS			=	ft_isalnum.c ft_isprint.c ft_memcmp.c  ft_putchar_fd.c ft_split.c \
 					ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 					ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
 					ft_lstmap.c ft_lstnew.c ft_lstsize.c \
-					ft_striteri.c ft_strlen.c g_n_l.c\
+					ft_striteri.c ft_strlen.c g_n_l.c ft_print_hex.c ft_print_ptr.c ft_print_u.c ft_printf.c ft_strcmp.c\
 					../libftplus/del_matrix_pos.c ../libftplus/del_str_pos.c ../libftplus/free_matrix.c\
 					../libftplus/ft_lst_free.c ../libftplus/ft_lst_sort.c ../libftplus/ft_lstdup.c\
 					../libftplus/ft_new_node.c ../libftplus/ft_strjoin3.c ../libftplus/list_to_matrix.c\

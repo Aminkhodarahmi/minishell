@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:54:09 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 19:18:41 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:13:10 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,6 @@ char			*get_next_line(int fd);
 
 char			*ft_uitoa(unsigned int n);
 
-
-
 t_list			*ft_new_node(void *content, size_t size);
 
 t_list			*ft_lstdup(t_list *lst);
@@ -148,7 +146,6 @@ char			*del_str_pos(char *str, int n);
 
 char			**del_matrix_pos(char **matrix, int pos);
 
-
 void			ft_put_hex(unsigned int num, const char format);
 
 int				ft_print_hex(unsigned int num, const char format);
@@ -169,6 +166,6 @@ unsigned int	ft_amin(va_list vl, const char format);
 
 int				ft_printf(const char *format, ...);
 
-
+char			*ft_strjoin3(const char *s1, const char *s2, const char *s3);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:32:43 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 19:33:22 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:51:08 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	exec_builtin_hdoc(t_input *in, t_list *arg_list)
 				if (!(ft_strncmp(in->split_in[i], "<<", 3))
 					&& in->q_state[i] == 0)
 				{
-					remove_redir(in, i);
+					// remove_redir(in, i);
 					i--;
 				}
 				i++;
 			}
-			exec_args(in);
+			// exec_args(in);
 		}
 	}
 	free_matrix(in->split_in);
@@ -43,7 +43,7 @@ void	exec_builtin_hdoc(t_input *in, t_list *arg_list)
 
 void	child(t_input *in, t_list *aux_list, int index)
 {
-	check_redirs(in);
+	// check_redirs(in);
 	if (aux_list->next != NULL)
 	{
 		if (!in->is_outfile)
@@ -64,8 +64,8 @@ void	child(t_input *in, t_list *aux_list, int index)
 	{
 		if (is_builtin(in) && !in->total_pipes)
 			exit (g_exit_status);
-		else
-			exec_args(in);
+		// else
+		// 	exec_args(in);
 	}
 	exit (g_exit_status);
 }
@@ -127,12 +127,12 @@ void	pipex(t_input *in, t_list *arg_list)
 		aux = (t_arg *)aux_list->content;
 		in->split_in = aux->arg;
 		in->q_state = aux->quotes;
-		if_minishell(in);
+		// if_minishell(in);
 		sub_pipex(in, aux_list, index, &flag);
 		aux_list = aux_list->next;
 		index++;
 	}
 	kill_last_process(in, flag);
 	exec_builtin_hdoc(in, arg_list);
-	free_list(in, arg_list);
+	// free_list(in, arg_list);
 }

@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:10:53 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 18:16:35 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:12:58 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	exec_hdoc(t_input *in)
 		error_msg(in, ERR_FORK, -1, 0);
 	if (!pid)
 	{
-		signal(SIGINT, handler4);
+		// signal(SIGINT, handler4);
 		while (in->split_in[i])
 		{
 			if (!(ft_strncmp(in->split_in[i], "<<", 3)) && in->q_state[i] == 0)
