@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:59:57 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/17 17:12:19 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:06:23 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ int	main(int argc, char **argv, char **environ)
 		update_level(&in);
 		while (1)
 		{
-			// signal(SIGINT, handler);
-			// signal(SIGQUIT, SIG_IGN);
+			signal(SIGINT, handler);
+			signal(SIGQUIT, SIG_IGN);
 			in.status = 0;
 			read_input(&in);
 			unlink(".hd_tmp");

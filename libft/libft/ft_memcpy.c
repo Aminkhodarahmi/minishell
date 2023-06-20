@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 08:54:40 by akhodara          #+#    #+#             */
-/*   Updated: 2023/05/11 14:22:45 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:05:25 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	}
 	return (dst);
 }
- 

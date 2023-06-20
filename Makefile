@@ -6,78 +6,67 @@
 #    By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/09 17:03:57 by akhodara          #+#    #+#              #
-#    Updated: 2023/06/17 19:22:47 by akhodara         ###   ########.fr        #
+#    Updated: 2023/06/19 15:55:13 by akhodara         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
+
+
 NAME = minishell
-CC = clang
-CFLAGS = -Wall -Wextra -Werror -I inc/ -I libft/libft/ -I ~/.brew/opt/readline/include -g3
-LIBFT = -L libft/libft -lft -L~/.brew/opt/readline/lib -lreadline
-# -L libft/libft -lft ~/.brew/opt/readline/lib -lreadline
-HEADER = minishell.h
+CC = gcc
+RM = rm -f
+MAKE = make
+READLINE = -L ~/.brew/opt/readline/lib -lreadline
+CFLAGS = -Wall -Werror -Wextra -I ~/.brew/opt/readline/include -g3
 
-SRC = $(shell find ./src/ -name "*.c" -type f)
+# SOURCES & OBJECTS #
 
-OBJ = $(SRC:c=o)
+SRCS =	src/main.c \
+		src/error_msg.c \
+		src/read_input.c \
+		src/signal.c \
+		src/redirections.c \
+		src/builtins/cd.c \
+		src/builtins/pwd.c \
+		src/builtins/echo.c \
+		src/builtins/env.c \
+		src/builtins/env_list.c \
+		src/builtins/export.c \
+		src/builtins/unset.c \
+		src/builtins/exit.c \
+		src/executer/exec_args.c \
+		src/executer/exec_cmd.c \
+		src/executer/pipes.c \
+		src/executer/args_list.c \
+		src/executer/here_doc.c \
+		src/lexer/check_args.c \
+		src/lexer/expand.c \
+		src/lexer/expand_aux.c \
+		src/lexer/quotes.c \
+		src/lexer/split_args.c \
+		src/lexer/token.c \
+		src/lexer/check_error_pipes.c \
+
+OBJS = $(SRCS:.c=.o)
+
+# RULES #
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@make -C libft/libft/
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
-
-%.o: %.c
-	@${CC} ${CFLAGS} -c $< -o $@
+$(NAME): $(OBJS)
+	@$(MAKE) -s -C ./libft/libft
+	@$(CC) $(CFLAGS) $(OBJS) ./libft/libft/libft.a $(READLINE) -o $(NAME)
 
 clean:
-	@make clean -C libft/libft/
-	@rm -f $(OBJ)
+	@clear
+	@$(RM) $(OBJS)
+	@$(MAKE) clean -C ./libft/libft
 
-fclean:
-	@make fclean -C libft/libft/
-	@rm -f $(OBJ)
-	@rm -f $(NAME)
+fclean: clean
+	@$(RM) $(NAME)
+	@$(RM) ./libft/libft/libft.a
 
 re: fclean all
 
-.PHONY: clean fclean re all
-
-
-
-
-
-
-
-# NAME = minishell
-# CC = gcc
-# RM = rm -f
-# MAKE = make
-# READLINE = -L ~/.brew/opt/readline/lib -lreadline
-# CFLAGS = -Wall -Werror -Wextra -I ~/.brew/opt/readline/include -g3
-# DEBUG = -g3 -fsanitize=address
-
-
-# SRCS =	$(shell find . -name "*.c" -type f)
-
-# OBJS = $(SRCS:.c=.o)
-
-# all: $(NAME)
-
-# $(NAME): $(OBJS)
-# 	$(MAKE) -s all -C libft
-# 	$(CC) $(CFLAGS) $(OBJS) libft/libft.a $(READLINE) -o $(NAME)
-	
-
-# clean:
-# 	clear
-# 	$(RM) $(OBJS)
-# 	$(MAKE) clean -C libft
-
-# fclean: clean
-# 	$(RM) $(NAME)
-# 	$(RM) libft/libft.a
-
-# re: fclean all
-
-# .PHONY: all re clean fclean
+.PHONY: all re clean fclean test

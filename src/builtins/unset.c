@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:04:13 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/17 13:42:56 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:38:40 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,57 @@ void	unset_from_list(t_input *in, char **var, int size_var)
 			}
 			aux = aux->next;
 		}
+	}
+}
+
+int	is_valid_id(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(ft_isalnum(str[i])) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	unset_aux2(t_input *in, char *var)
+{
+	int		size_var;
+
+	size_var = ft_strlen(var);
+	unset_from_list(in, &var, size_var);
+	if (!(ft_strncmp(var, "PATH=", size_var)))
+		in->path_unset = 1;
+	free_matrix(in->dup_env);
+	in->dup_env = list_to_matrix(*in->env_list);
+}
+
+void	unset(t_input *in, int j)
+{
+	char	*var;
+	char	*tmp_env;
+
+	if (in->split_in[1] == NULL)
+		return ;
+	while (in->split_in[j])
+	{
+		if (!is_valid_id(in->split_in[j]))
+			error_msg(in, ERR_ID, j, 0);
+		else
+		{
+			var = ft_strdup(in->split_in[j]);
+			tmp_env = ft_getenv(var, in);
+			if (tmp_env)
+			{
+				unset_aux2(in, var);
+				free(tmp_env);
+			}
+			free(var);
+		}
+		j++;
 	}
 }

@@ -6,11 +6,29 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:58:39 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/17 13:46:35 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:27:23 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	free_list(t_input *in, t_list *arg_list)
+{
+	t_arg	*aux;
+	t_list	*aux_list;
+
+	aux_list = arg_list;
+	while (aux_list)
+	{
+		aux = (t_arg *)aux_list->content;
+		free_matrix(aux->arg);
+		free(aux->quotes);
+		aux_list = aux_list->next;
+	}
+	ft_lstclear(&arg_list, free);
+	in->q_state = NULL;
+	in->split_in = NULL;
+}
 
 int	update_g_exit_status(char *ERR, int is_abs)
 {

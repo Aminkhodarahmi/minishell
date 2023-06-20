@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   epand.c                                            :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:00:23 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 18:03:17 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:09:36 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,56 +41,55 @@ int	check_var_aux(t_input *in)
 		return (2);
 }
 
-int	check_var(t_input *in)
+void	reset_vars(t_input *in)
+{
+	ft_bzero(&in->f, sizeof(in->f));
+}
+
+void	handle_dollar(t_input *in)
 {
 	in->f.i++;
 	quotes_state(in, in->split_in[in->f.j]);
-	if (!ft_isalnum(in->split_in[in->f.j][in->f.i]))
-	{
-		if (in->split_in[in->f.j][in->f.i] == '\0')
-		{
-			in->f.i--;
-			return (2);
-		}
-		if (in->split_in[in->f.j][in->f.i] == '$')
-		{
-			if (ft_isalnum(in->split_in[in->f.j][in->f.i + 1])
-				&& in->split_in[in->f.j][in->f.i + 1] != '\0')
-				return (0);
-			return (2);
-		}
-		return (check_var_aux(in));
-	}
-	in->f.i--;
-	return (0);
 }
 
-void	expand_vars_aux(t_input *in)
+void	handle_non_alnum(t_input *in)
 {
-	int		check;
+	char	*aux;
+
+	if (in->split_in[in->f.j][in->f.i] == '\0')
+	{
+		in->f.i--;
+		return ;
+	}
+	if (in->split_in[in->f.j][in->f.i] == '$')
+	{
+		if (ft_isalnum(in->split_in[in->f.j][in->f.i + 1])
+			&& in->split_in[in->f.j][in->f.i + 1] != '\0')
+			return ;
+		in->f.i--;
+		return ;
+	}
+	check_var_aux(in);
+	aux = del_str_pos(in->split_in[in->f.j], in->f.i - 1);
+	free(in->split_in[in->f.j]);
+	in->split_in[in->f.j] = ft_strdup(aux);
+	free(aux);
+}
+
+void	handle_alnum(t_input *in)
+{
 	char	*aux;
 	char	*var;
 
-	check = check_var(in);
-	if (check == 1)
-	{
-		aux = del_str_pos(in->split_in[in->f.j], in->f.i - 1);
-		free(in->split_in[in->f.j]);
-		in->split_in[in->f.j] = ft_strdup(aux);
-		free(aux);
-	}
-	else if (check == 0)
-	{
-		aux = ft_substr(in->split_in[in->f.j], 0, in->f.i);
-		var = get_expanded_var(in->split_in[in->f.j], in->f.i + 1);
-		insert_exp_var(in, &var, &aux, in->f.j);
-		in->f.i = in->f.count - 1;
-	}
+	aux = ft_substr(in->split_in[in->f.j], 0, in->f.i);
+	var = get_expanded_var(in->split_in[in->f.j], in->f.i + 1);
+	insert_exp_var(in, &var, &aux, in->f.j);
+	in->f.i = in->f.count - 1;
 }
 
 void	expand_vars(t_input *in)
 {
-	ft_bzero(&in->f, sizeof(in->f));
+	reset_vars(in);
 	while (in->split_in[in->f.j] != NULL)
 	{
 		in->f.i = 0;
@@ -98,7 +97,13 @@ void	expand_vars(t_input *in)
 		{
 			quotes_state(in, in->split_in[in->f.j]);
 			if (in->split_in[in->f.j][in->f.i] == '$' && !in->f.single_q)
-				expand_vars_aux(in);
+			{
+				handle_dollar(in);
+				if (!ft_isalnum(in->split_in[in->f.j][in->f.i]))
+					handle_non_alnum(in);
+				else
+					handle_alnum(in);
+			}
 			in->f.i++;
 		}
 		in->f.j++;

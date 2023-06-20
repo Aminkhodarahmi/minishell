@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:46:34 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/17 17:47:24 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:28:10 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	read_in_aux(t_input *in)
 			if (!count_pipes(in) && is_builtin(in) && !in->is_hdoc)
 			{
 				check_redirs(in);
-				// if (!in->is_err)
-				// 	exec_args(in);
+				if (!in->is_err)
+					exec_args(in);
 				if (in->is_outfile)
 					dup2(in->back_stdout, STDOUT_FILENO);
 				if (in->is_outfile)
@@ -80,8 +80,8 @@ void	read_in_aux(t_input *in)
 				if (!in->is_err)
 					g_exit_status = 0;
 			}
-			// else
-			// 	init_arg_list(in);
+			else
+				init_arg_list(in);
 		}
 	}
 }

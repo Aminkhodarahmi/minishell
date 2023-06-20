@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 09:57:40 by akhodara          #+#    #+#             */
-/*   Updated: 2023/02/02 12:34:10 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:05:44 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ size_t	ft_strlcat(char *dest, const char *src, size_t len)
 		dest[j + k] = '\0';
 	return (j + ft_strlen(src));
 }
-

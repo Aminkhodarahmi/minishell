@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:54:03 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 18:06:40 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:02:09 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,40 +44,46 @@ int	quotes_state(t_input *in, char *str)
 static char	*delete_quote(t_input *in, char *str)
 {
 	char	*final_str;
+	int		j;
+	int		i;
 
-	while (str[in->f.i])
+	final_str = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+	j = 0;
+	i = 0;
+	while (str[i] != '\0')
 	{
 		if (!quotes_state(in, str))
-			in->f.j++;
-		in->f.i++;
+		{
+			final_str[j] = str[i];
+			j++;
+		}
+		i++;
 	}
-	final_str = malloc(sizeof(char) * (in->f.j + 1));
-	final_str[in->f.j] = '\0';
-	ft_bzero(&in->f, sizeof(in->f));
-	while (str[in->f.i])
-	{
-		if (!quotes_state(in, str))
-			final_str[in->f.j++] = str[in->f.i];
-		in->f.i++;
-	}
+	final_str[j] = '\0';
 	return (final_str);
+}
+
+void	initi(t_input *in, char *var, char *value)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(var, value);
+	in->split_in = malloc(sizeof(char *) * 3);
+	in->split_in[0] = ft_strdup("export");
+	in->split_in[1] = tmp;
+	in->split_in[2] = NULL;
 }
 
 void	update_env_var(t_input *in, char *var, char *value)
 {
 	char	**aux_in;
-	char	*tmp;
 
 	aux_in = NULL;
 	if (in->split_in)
 		aux_in = matrix_dup(in->split_in);
-	tmp = ft_strjoin(var, value);
 	if (in->split_in)
 		free_matrix(in->split_in);
-	in->split_in = malloc(sizeof(char *) * 3);
-	in->split_in[0] = ft_strdup("export");
-	in->split_in[1] = tmp;
-	in->split_in[2] = NULL;
+	initi(in, var, value);
 	export(in);
 	free_matrix(in->split_in);
 	in->split_in = NULL;
@@ -87,10 +93,13 @@ void	update_env_var(t_input *in, char *var, char *value)
 char	**quotes(t_input *in)
 {
 	int		size;
-	int		i;
+	char	**result;
 	char	*aux;
+	int		i;
 
+	size = matrix_len(in->split_in);
 	i = 0;
+	result = (char **)malloc((size + 1) * sizeof(char *));
 	while (in->split_in[i] != NULL)
 	{
 		ft_bzero(&in->f, sizeof(in->f));
@@ -99,11 +108,12 @@ char	**quotes(t_input *in)
 			in->q_state[i] = 0;
 		else
 			in->q_state[i] = 1;
-		free(in->split_in[i]);
-		in->split_in[i] = aux;
+		result[i] = aux;
 		i++;
 	}
-	size = matrix_len(in->split_in);
-	update_env_var(in, "_=", in->split_in[size - 1]);
-	return (in->split_in);
+	result[size] = NULL;
+	update_env_var(in, "_=", result[size - 1]);
+	free_matrix(in->split_in);
+	in->split_in = result;
+	return (result);
 }
