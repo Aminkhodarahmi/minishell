@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:10:53 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:33:54 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:59:46 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 void	remove_redir(t_input *in, int i)
 {
-	char	**aux;
+	char	**sub;
 	int		j;
 
 	j = 0;
-	aux = malloc(sizeof(char *) * (matrix_len(in->split_in) - 1));
+	sub = malloc(sizeof(char *) * (arr_len(in->split_in) - 1));
 	while (in->split_in[j] && j < i)
 	{
-		aux[j] = ft_strdup(in->split_in[j]);
+		sub[j] = ft_strdup(in->split_in[j]);
 		j++;
 	}
 	i += 2;
 	while (in->split_in[i])
 	{
-		aux[j] = ft_strdup(in->split_in[i]);
+		sub[j] = ft_strdup(in->split_in[i]);
 		in->q_state[j] = in->q_state[i];
 		j++;
 		i++;
 	}
-	aux[j] = NULL;
-	free_matrix(in->split_in);
+	sub[j] = NULL;
+	fr_arr(in->split_in);
 	in->split_in = NULL;
-	in->split_in = aux;
+	in->split_in = sub;
 }
 
 void	here_doc(t_input *in, int i)
@@ -47,7 +47,7 @@ void	here_doc(t_input *in, int i)
 	here_doc = NULL;
 	fd = open(".hd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
-		error_msg(in, ERR_FILE, -1, 0);
+		error_msg(in, "No such file or directory", -1, 0);
 	eof = ft_strdup(in->split_in[i + 1]);
 	free(in->prompt);
 	in->prompt = ft_strdup("> ");
@@ -73,7 +73,7 @@ void	exec_hdoc(t_input *in)
 	i = 0;
 	pid = fork();
 	if (pid < 0)
-		error_msg(in, ERR_FORK, -1, 0);
+		error_msg(in, "Fork error", -1, 0);
 	if (!pid)
 	{
 		signal(SIGINT, handler4);
@@ -86,10 +86,10 @@ void	exec_hdoc(t_input *in)
 		exit (0);
 	}
 	waitpid(pid, &in->status, 0);
-	g_exit_status = WEXITSTATUS(in->status);
+	g_quit = WEXITSTATUS(in->status);
 }
 
-int	check_hdoc(t_input *in)
+int	verify_hdoc(t_input *in)
 {
 	int	i;
 

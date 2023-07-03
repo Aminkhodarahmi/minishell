@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_dup.c                                       :+:      :+:    :+:   */
+/*   arrs_len.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:29:50 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:42:09 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:30:15 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 14:59:50 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-char	**matrix_dup(char **matrix)
+int	arr_len(char **arrs)
 {
-	char	**out;
-	int		size;
-	int		i;
+	int	i;
 
 	i = 0;
-	size = matrix_len(matrix);
-	out = malloc(sizeof(char *) * (size + 1));
-	if (!out)
-		return (NULL);
-	while (matrix[i])
-	{
-		out[i] = ft_strdup(matrix[i]);
-		if (!out[i])
-		{
-			free_matrix(out);
-			return (NULL);
-		}
+	while (arrs && arrs[i])
 		i++;
-	}
-	out[i] = NULL;
-	return (out);
+	return (i);
 }

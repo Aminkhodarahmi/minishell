@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_matrix.c                                      :+:      :+:    :+:   */
+/*   list_to_arrs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:31:30 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:35 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:29:03 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 14:57:25 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-void	free_matrix(char **matrix)
+char	**arr_list(t_list *lst)
 {
-	int	i;
+	int		i;
+	char	**arrs;
+	t_list	*sub;
 
 	i = 0;
-	while (matrix[i])
+	sub = lst;
+	arrs = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	while (sub)
 	{
-		free(matrix[i]);
+		arrs[i] = ft_strdup(sub->content);
+		sub = sub->next;
 		i++;
 	}
-	free(matrix);
+	arrs[i] = NULL;
+	return (arrs);
 }

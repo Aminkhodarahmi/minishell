@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   del_matrix_pos.c                                   :+:      :+:    :+:   */
+/*   write_arr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:26:16 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:20 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:30:39 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 12:42:57 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
+#include <stdio.h>
 
-char	**del_matrix_pos(char **matrix, int pos)
+void	write_arr(char **arrs)
 {
-	int		i;
-	int		j;
-	char	**aux;
+	int	i;
 
 	i = 0;
-	j = 0;
-	aux = malloc(matrix_len(matrix));
-	while (matrix[i])
+	if (!arrs)
+		printf("(null)\n");
+	else
 	{
-		if (i == pos)
+		while (arrs[i])
+		{
+			printf("%s\n", arrs[i]);
 			i++;
-		aux[j] = matrix[i];
-		i++;
-		j++;
+		}
 	}
-	aux[j] = NULL;
-	return (aux);
 }

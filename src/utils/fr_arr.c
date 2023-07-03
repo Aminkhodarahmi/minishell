@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_u.c                                       :+:      :+:    :+:   */
+/*   free_arrs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 16:36:14 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:52:52 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:31:30 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 14:56:22 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
-int	ft_print_u(unsigned int n)
+void	fr_arr(char **arrs)
 {
-	int		len;
-	char	*num;
+	int	i;
 
-	len = 0;
-	if (n == 0)
-		len += write(1, "0", 1);
-	else
+	i = 0;
+	while (arrs[i])
 	{
-		num = ft_uitoa(n);
-		ft_putstr_fd(num, 1);
-		len += ft_strlen(num);
-		free(num);
+		free(arrs[i]);
+		i++;
 	}
-	return (len);
+	free(arrs);
 }

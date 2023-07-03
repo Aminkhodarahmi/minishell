@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:13:26 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 17:22:26 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:56:14 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	count_pipes(t_input *in)
 	return (in->total_pipes);
 }
 
-void	init_arg_list_aux(t_input *in, t_list **arg_list, int i[4])
+void	init_arg_list_sub(t_input *in, t_list **arg_list, int i[4])
 {
 	t_arg	*args;
 
@@ -51,17 +51,6 @@ void	init_arg_list_aux(t_input *in, t_list **arg_list, int i[4])
 	ft_lstadd_back(arg_list, ft_lstnew((void *) args));
 }
 
-void	process_command_group(t_input *in, t_list **arg_list, int *i)
-{
-	while (in->split_in[i[0]] != NULL \
-		&& (ft_strncmp(in->split_in[i[0]], "|", 2) || in->q_state[i[0]] == 1))
-	{
-		i[0]++;
-		i[2]++;
-	}
-	init_arg_list_aux(in, arg_list, i);
-}
-
 void	init_arg_list(t_input *in)
 {
 	t_list	*arg_list;
@@ -74,11 +63,18 @@ void	init_arg_list(t_input *in)
 	{
 		i[3] = 0;
 		i[2] = 0;
-		process_command_group(in, &arg_list, i);
+		while (in->split_in[i[0]] != NULL
+			&& ((ft_strncmp(in->split_in[i[0]], "|", 2))
+				|| in->q_state[i[0]] == 1))
+		{
+			i[0]++;
+			i[2]++;
+		}
+		init_arg_list_sub(in, &arg_list, i);
 		i[1]++;
 		i[0]++;
 	}
 	free(in->q_state);
-	free_matrix(in->split_in);
+	fr_arr(in->split_in);
 	pipex(in, arg_list);
 }

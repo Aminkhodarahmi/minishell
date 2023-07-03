@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_matrix.c                                     :+:      :+:    :+:   */
+/*   rm_arr_loc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:30:39 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:49:53 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:26:16 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 12:42:01 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include <stdio.h>
+#include "../../inc/minishell.h"
 
-void	print_matrix(char **matrix)
+char	**rm_arr_loc(char **arrs, int pos)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	**sub;
 
 	i = 0;
-	if (!matrix)
-		printf("(null)\n");
-	else
+	j = 0;
+	sub = malloc(arr_len(arrs));
+	while (arrs[i])
 	{
-		while (matrix[i])
-		{
-			printf("%s\n", matrix[i]);
+		if (i == pos)
 			i++;
-		}
+		sub[j] = arrs[i];
+		i++;
+		j++;
 	}
+	sub[j] = NULL;
+	return (sub);
 }

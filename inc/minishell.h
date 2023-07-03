@@ -6,19 +6,17 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:00:27 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:35:20 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:02:00 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>
-# include <stdlib.h>
+# include "../libft/libft.h"
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -26,34 +24,8 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <errno.h>
-# include "../libft/libft/libft.h"
 
-# define R_END 0
-# define W_END 1
-
-# define SHELL "minishell: "
-# define IS_DIR "is a folder"
-# define ERR_PIPE "Error occurred while using pipe"
-# define ERR_FORK "Error occurred while forking"
-# define ERR_DUP "Error occurred while duplicating file descriptor"
-# define ERR_SYNTAX "Syntax error: unexpected token `newLine'"
-# define ERR_SYNTAX_PIPE "Syntax error: unexpected token '|'"
-# define ERR_SYNTAX_IN "Syntax error: unexpected token '<'"
-# define ERR_SYNTAX_OUT "Syntax error: unexpected token '>'"
-# define ERR_CMD "Command not found"
-# define ERR_FILE "File or directory does not exist"
-# define ERR_PERM "Permission denied"
-# define ERR_BIN "Cannot execute binary file"
-# define ERR_HOME "HOME environment variable not set"
-# define ERR_ID "Not a valid identifier"
-# define ERR_ID2 "minishell: `': not a valid identifier"
-# define ERR_ARG "Syntax error: unpaired quotes"
-# define ERR_ARG2 "Too many arguments"
-# define ERR_SHLVL "Warning: shell level too high, resetting to 1"
-# define ERR_TOOLONG "File name exceeds maximum length"
-# define ERR_HDOC "here_doc: could not find here_doc file"
-
-extern int	g_exit_status;
+extern int	g_quit;
 
 typedef struct s_arg
 {
@@ -67,12 +39,14 @@ typedef struct s_flags
 	int	j;
 	int	start;
 	int	count;
+	int	num;
 	int	count_double;
 	int	single_q;
 	int	double_q;
 	int	global_q;
 	int	global_count;
 	int	global_sp;
+	int	count_num;
 }	t_flags;
 
 typedef struct s_input
@@ -100,57 +74,113 @@ typedef struct s_input
 	t_flags	f;
 }	t_input;
 
-int		main(int argc, char **argv, char **environ);
-int		error_msg(t_input *in, char *MSG, int n, int is_abs);
-void	free_list(t_input *in, t_list *arg_list);
-int		char_sp(char c);
-char	*ft_getenv(const char *str, t_input *in);
+int			main(int argc, char **argv, char **environ);
+void		update_level(t_input *in);
+void		init_structs(t_input *in, t_list **envp);
+void		verify_basic_vars(t_input *in);
+void		verify_basic_vars2(t_input *in);
+void		if_minishell(t_input *in);
+void		handler(int code);
+void		handler2(int code);
+void		handler3(int code);
+void		handler4(int code);
+int			char_sp(char c);
+void		count_tokens_sub(t_input *in, char *s, int start);
+void		count_tokens_sub2(t_input *in, char *s, int start);
+int			count_tokens(char *s, t_input *in, int split);
+void		split_args_sub2(t_input *in, char **final_in, char c);
+void		split_args_sub(t_input *in, char **final_in);
+int			calculate_final_in_size(t_input *in);
+void		split_args(t_input *in);
+int			quotes_state(t_input *in, char *str);
+void		initi(t_input *in, char *var, char *value);
+void		update_env_var(t_input *in, char *var, char *value);
+char		**quotes(t_input *in);
+int			verify_var_sub(t_input *in);
+int			verify_var(t_input *in);
+void		expand_vars_sub(t_input *in);
+void		expand_vars(t_input *in);
+char		*get_expanded_var(char *str, int i);
+void		insert_exp_var(t_input *in, char **var, char **sub, int j);
+void		verify_quotes(t_input *in);
+int			verify_errors_pipes_aux(t_input *in);
+int			verify_error_pipes(t_input *in);
+int			verify_error_redirs_sub(t_input *in, int i);
+int			verify_error_redirs(t_input *in);
+int			verify_args(t_input *in);
+int			pair_quotes(t_input *in);
+int			is_space(char *str);
+void		read_in_sub(t_input *in);
+void		input_work(t_input *in, char **user);
+void		read_input(t_input *in);
+void		infile_sub(t_input *in);
+int			infile(t_input *in, int i);
+void		outfile_sub(t_input *in);
+int			outfile(t_input *in, int i);
+void		exec_builtin_hdoc(t_input *in, t_list *arg_list);
+void		child(t_input *in, t_list *sub_list, int index);
+void		sub_pipex(t_input *in, t_list *sub_list, int index, int *flag);
+void		kill_last_process(t_input *in, int flag);
+void		pipex(t_input *in, t_list *arg_list);
+void		remove_redir(t_input *in, int i);
+void		here_doc(t_input *in, int i);
+void		exec_hdoc(t_input *in);
+int			verify_hdoc(t_input *in);
+int			get_path(t_input *in);
+int			get_cmd_path(t_input *in);
+char		**dup_new_env(char **arrs, int size);
+void		exec_minishell(t_input *in);
+void		exec_cmd(t_input *in);
+void		exec_absolute(t_input *in);
+int			is_builtin2(t_input *in);
+int			is_builtin(t_input *in);
+void		exec_args(t_input *in);
+int			count_pipes(t_input *in);
+void		init_arg_list_sub(t_input *in, t_list **arg_list, int i[4]);
+void		init_arg_list(t_input *in);
+void		free_list(t_input *in, t_list *arg_list);
+int			update_g_quit(char *ERR, int is_abs);
+int			error_msg(t_input *in, char *MSG, int n, int is_abs);
+void		delete_head(t_input *in);
+void		unset_from_list(t_input *in, char **var, int size_var);
+int			is_valid_id(char *str);
+void		unset_sub2(t_input *in, char *var);
+void		unset(t_input *in, int j);
+void		pwd(t_input *in);
+int			valid_id(char *str);
+void		export_sub(t_input *in, char **sub, int j);
+void		export(t_input *in);
+int			str_is_digit(char *str);
+int			verify_exit_args(t_input *in);
+void		my_exit(t_input *in);
+void		print_export(t_list **lst, int i);
+void		env(t_input *in, int is_export);
+char		*ft_getenv_sub(t_list *sub, char **var, int size_var);
+char		*ft_getenv(const char *str, t_input *in);
+void		verify_redirs(t_input *in);
+void		init_basic_env(t_input *in, char **pwd);
+void		dup_env(t_input *in, char **environ);
+void		init_env_list(t_input *in, t_list **envp, char **environ);
+void		print_echo(t_input *in, int i);
+int			is_n(char *str);
+void		is_multiple_n(t_input *in, int i);
+void		echo(t_input *in);
+void		cd_sub(t_input *in, char **pwd, char **home_path);
+void		cd(t_input *in);
 
-void	init_env_list(t_input *in, t_list **envp, char **environ);
-void	init_flags(t_input *in);
-void	init_arg_list(t_input *in);
-void	update_env_var(t_input *in, char *var, char *value);
-void	check_basic_vars(t_input *in);
+void		ft_lst_free(t_list *lst);
 
-void	read_input(t_input *in);
-int		check_error_pipes(t_input *in);
-void	split_args(t_input *in);
-int		count_tokens(char *s, t_input *in, int split);
-int		check_args(t_input *in);
-void	expand_vars(t_input *in);
-char	*get_expanded_var(char *str, int i);
-void	insert_exp_var(t_input *in, char **var, char **aux, int j);
-void	check_quotes(t_input *in);
-int		count_pipes(t_input *in);
-char	**quotes(t_input *in);
-int		quotes_state(t_input *in, char *str);
-
-int		is_builtin(t_input *in);
-int		is_builtin2(t_input *in);
-void	cd(t_input *in);
-void	echo(t_input *in);
-void	env(t_input *in, int type);
-void	my_exit(t_input *in);
-void	export(t_input *in);
-void	pwd(t_input *in);
-void	unset(t_input *in, int j);
-void	exec_minishell(t_input *in);
-void	exec_absolute(t_input *in);
-
-void	exec_args(t_input *in);
-void	exec_cmd(t_input *in);
-void	pipex(t_input *in, t_list *arg_list);
-void	if_minishell(t_input *in);
-void	check_redirs(t_input *in);
-int		check_hdoc(t_input *in);
-void	exec_hdoc(t_input *in);
-void	here_doc(t_input *in, int i);
-void	remove_redir(t_input *in, int i);
-void	unset_from_list(t_input *in, char **var, int size_var);
-
-void	handler(int code);
-void	handler2(int code);
-void	handler3(int code);
-void	handler4(int code);
+void		ft_lst_sort(t_list **lst, int (*cmp)());
+void		fr_arr(char **arrs);
+void		write_arr(char **arrs);
+int			arr_len(char **arrs);
+char		**arr_dup(char **arrs);
+char		**arr_add_back(char **arrs, char *str);
+char		**arr_list(t_list *lst);
+char		*del_str_pos(char *str, int n);
+char		**rm_arr_loc(char **arrs, int pos);
+void		ft_put_hex(unsigned int num, const char format);
+int			ft_print_hex(unsigned int num, const char format);
+char		*ft_strjoin3(const char *s1, const char *s2, const char *s3);
 
 #endif

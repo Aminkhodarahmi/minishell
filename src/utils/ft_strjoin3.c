@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_to_matrix.c                                   :+:      :+:    :+:   */
+/*   ft_strjoin3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:29:03 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:42:01 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:28:44 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 12:42:37 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-char	**list_to_matrix(t_list *lst)
+char	*ft_strjoin3(const char *s1, const char *s2, const char *s3)
 {
-	int		i;
-	char	**matrix;
-	t_list	*aux;
+	char	*temp;
+	char	*ret;
 
-	i = 0;
-	aux = lst;
-	matrix = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
-	while (aux)
-	{
-		matrix[i] = ft_strdup(aux->content);
-		aux = aux->next;
-		i++;
-	}
-	matrix[i] = NULL;
-	return (matrix);
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	temp = ft_strjoin(s1, s2);
+	if (!temp)
+		return (NULL);
+	ret = ft_strjoin(temp, s3);
+	free(temp);
+	return (ret);
 }

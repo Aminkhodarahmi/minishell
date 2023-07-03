@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   del_str_pos.c                                      :+:      :+:    :+:   */
+/*   ft_new_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:26:34 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:31 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:32:51 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 12:42:29 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-char	*del_str_pos(char *str, int n)
+t_list	*ft_new_node(void *content, size_t size)
 {
-	int		i;
-	int		j;
-	char	*aux;
+	t_list	*stack;
+	void	*sub;
 
-	i = 0;
-	j = 0;
-	aux = malloc(ft_strlen(str));
-	while (str[i])
+	stack = malloc(sizeof(t_list));
+	if (!stack)
+		return (NULL);
+	sub = malloc(size);
+	if (!sub)
 	{
-		if (i == n)
-			i++;
-		aux[j] = str[i];
-		i++;
-		j++;
+		free(stack);
+		stack = NULL;
 	}
-	aux[j] = '\0';
-	return (aux);
+	ft_memcpy(sub, content, size);
+	stack->content = sub;
+	stack->next = NULL;
+	return (stack);
 }

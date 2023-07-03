@@ -6,13 +6,13 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 17:53:02 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/20 14:08:10 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:06:02 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	split_args_aux2(t_input *in, char **final_in, char c)
+void	split_args_sub2(t_input *in, char **final_in, char c)
 {
 	(*final_in)[in->f.count++] = ' ';
 	(*final_in)[in->f.count++] = c;
@@ -20,17 +20,18 @@ void	split_args_aux2(t_input *in, char **final_in, char c)
 	{
 		(*final_in)[in->f.count++] = c;
 		in->f.i += 1;
+		in->f.num++;
 	}
 	(*final_in)[in->f.count] = ' ';
 }
 
-void	split_args_aux(t_input *in, char **final_in)
+void	split_args_sub(t_input *in, char **final_in)
 {
 	char	c;
 
 	while (in->user_in[in->f.i] != '\0')
 	{
-		check_quotes(in);
+		verify_quotes(in);
 		c = in->user_in[in->f.i];
 		if (in->f.double_q == 0 && in->f.single_q == 0 \
 				&& (c == '|' || c == '<' || c == '>'))
@@ -60,7 +61,7 @@ int	calculate_final_in_size(t_input *in)
 	ft_bzero(&in->f, sizeof(in->f));
 	while (in->user_in[in->f.i] != '\0')
 	{
-		check_quotes(in);
+		verify_quotes(in);
 		c = in->user_in[in->f.i];
 		if (in->f.double_q == 0 && in->f.single_q == 0 \
 				&& (c == '|' || c == '<' || c == '>'))
@@ -68,6 +69,7 @@ int	calculate_final_in_size(t_input *in)
 			if (in->user_in[in->f.i + 1] == c)
 				in->f.i++;
 			size += 2;
+			in->f.count_num = 1;
 		}
 		in->f.i++;
 	}
@@ -82,7 +84,7 @@ void	split_args(t_input *in)
 	final_in_size = calculate_final_in_size(in);
 	final_in = (char *)malloc(sizeof(char) * final_in_size);
 	ft_bzero(&in->f, sizeof(in->f));
-	split_args_aux(in, &final_in);
+	split_args_sub(in, &final_in);
 	final_in[in->f.count] = '\0';
 	free(in->user_in);
 	in->user_in = final_in;

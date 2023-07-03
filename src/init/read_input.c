@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:46:34 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:28:10 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:56:14 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	pair_quotes(t_input *in)
 {
@@ -57,20 +57,20 @@ int	is_space(char *str)
 	return (1);
 }
 
-void	read_in_aux(t_input *in)
+void	read_in_sub(t_input *in)
 {
 	if (in->user_in[0] != '\0')
 		add_history(in->user_in);
 	ft_bzero(&in->f, sizeof(in->f));
-	if (!check_error_pipes(in))
+	if (!verify_error_pipes(in))
 	{
 		split_args(in);
-		if (check_args(in))
+		if (verify_args(in))
 		{
-			check_hdoc(in);
+			verify_hdoc(in);
 			if (!count_pipes(in) && is_builtin(in) && !in->is_hdoc)
 			{
-				check_redirs(in);
+				verify_redirs(in);
 				if (!in->is_err)
 					exec_args(in);
 				if (in->is_outfile)
@@ -78,7 +78,7 @@ void	read_in_aux(t_input *in)
 				if (in->is_outfile)
 					close(in->back_stdout);
 				if (!in->is_err)
-					g_exit_status = 0;
+					g_quit = 0;
 			}
 			else
 				init_arg_list(in);
@@ -91,16 +91,16 @@ void	input_work(t_input *in, char **user)
 	if (!is_space(in->user_in))
 	{
 		if (pair_quotes(in) == 0)
-			read_in_aux(in);
+			read_in_sub(in);
 		else
 		{
-			error_msg(in, ERR_ARG, -2, 0);
+			error_msg(in, "Syntax error: unpaired quotes", -2, 0);
 			add_history(in->user_in);
 		}
 	}
 	if (in->split_in)
 	{	
-		free_matrix(in->split_in);
+		fr_arr(in->split_in);
 		in->split_in = NULL;
 	}
 	free(in->q_state);

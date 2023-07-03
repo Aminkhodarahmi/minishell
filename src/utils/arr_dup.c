@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_new_node.c                                      :+:      :+:    :+:   */
+/*   arr_dup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:32:51 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:51 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:29:50 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 15:02:00 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-t_list	*ft_new_node(void *content, size_t size)
+char	**arr_dup(char **arrs)
 {
-	t_list	*stack;
-	void	*aux;
+	char	**out;
+	int		size;
+	int		i;
 
-	stack = malloc(sizeof(t_list));
-	if (!stack)
+	i = 0;
+	size = arr_len(arrs);
+	out = malloc(sizeof(char *) * (size + 1));
+	if (!out)
 		return (NULL);
-	aux = malloc(size);
-	if (!aux)
+	while (arrs[i])
 	{
-		free(stack);
-		stack = NULL;
+		out[i] = ft_strdup(arrs[i]);
+		if (!out[i])
+		{
+			fr_arr(out);
+			return (NULL);
+		}
+		i++;
 	}
-	ft_memcpy(aux, content, size);
-	stack->content = aux;
-	stack->next = NULL;
-	return (stack);
+	out[i] = NULL;
+	return (out);
 }

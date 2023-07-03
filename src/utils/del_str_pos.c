@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin3.c                                      :+:      :+:    :+:   */
+/*   del_str_pos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:28:44 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:57 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:26:34 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 12:42:09 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-char	*ft_strjoin3(const char *s1, const char *s2, const char *s3)
+char	*del_str_pos(char *str, int n)
 {
-	char	*temp;
-	char	*ret;
+	int		i;
+	int		j;
+	char	*sub;
 
-	if (!s1 || !s2 || !s3)
-		return (NULL);
-	temp = ft_strjoin(s1, s2);
-	if (!temp)
-		return (NULL);
-	ret = ft_strjoin(temp, s3);
-	free(temp);
-	return (ret);
+	i = 0;
+	j = 0;
+	sub = malloc(ft_strlen(str));
+	while (str[i])
+	{
+		if (i == n)
+			i++;
+		sub[j] = str[i];
+		i++;
+		j++;
+	}
+	sub[j] = '\0';
+	return (sub);
 }

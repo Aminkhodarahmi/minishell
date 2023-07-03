@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:54:03 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 17:02:09 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 14:59:46 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,44 +76,44 @@ void	initi(t_input *in, char *var, char *value)
 
 void	update_env_var(t_input *in, char *var, char *value)
 {
-	char	**aux_in;
+	char	**sub_in;
 
-	aux_in = NULL;
+	sub_in = NULL;
 	if (in->split_in)
-		aux_in = matrix_dup(in->split_in);
+		sub_in = arr_dup(in->split_in);
 	if (in->split_in)
-		free_matrix(in->split_in);
+		fr_arr(in->split_in);
 	initi(in, var, value);
 	export(in);
-	free_matrix(in->split_in);
+	fr_arr(in->split_in);
 	in->split_in = NULL;
-	in->split_in = aux_in;
+	in->split_in = sub_in;
 }
 
 char	**quotes(t_input *in)
 {
 	int		size;
 	char	**result;
-	char	*aux;
+	char	*sub;
 	int		i;
 
-	size = matrix_len(in->split_in);
+	size = arr_len(in->split_in);
 	i = 0;
 	result = (char **)malloc((size + 1) * sizeof(char *));
 	while (in->split_in[i] != NULL)
 	{
 		ft_bzero(&in->f, sizeof(in->f));
-		aux = delete_quote(in, in->split_in[i]);
-		if (!ft_strncmp(in->split_in[i], aux, ft_strlen(aux)))
+		sub = delete_quote(in, in->split_in[i]);
+		if (!ft_strncmp(in->split_in[i], sub, ft_strlen(sub)))
 			in->q_state[i] = 0;
 		else
 			in->q_state[i] = 1;
-		result[i] = aux;
+		result[i] = sub;
 		i++;
 	}
 	result[size] = NULL;
 	update_env_var(in, "_=", result[size - 1]);
-	free_matrix(in->split_in);
+	fr_arr(in->split_in);
 	in->split_in = result;
 	return (result);
 }

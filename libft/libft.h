@@ -6,15 +6,16 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 17:54:09 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/17 19:13:10 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:39:33 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
+# include <stdio.h>
 # include <unistd.h>
+# include <stdlib.h>
 # include <stdarg.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -125,47 +126,5 @@ char			*ft_uitoa(unsigned int n);
 t_list			*ft_new_node(void *content, size_t size);
 
 t_list			*ft_lstdup(t_list *lst);
-
-void			ft_lst_free(t_list *lst);
-
-void			ft_lst_sort(t_list **lst, int (*cmp)());
-
-void			free_matrix(char **matrix);
-
-void			print_matrix(char **matrix);
-
-int				matrix_len(char **matrix);
-
-char			**matrix_dup(char **matrix);
-
-char			**matrix_add_back(char **matrix, char *str);
-
-char			**list_to_matrix(t_list *lst);
-
-char			*del_str_pos(char *str, int n);
-
-char			**del_matrix_pos(char **matrix, int pos);
-
-void			ft_put_hex(unsigned int num, const char format);
-
-int				ft_print_hex(unsigned int num, const char format);
-
-void			ft_put_ptr(uintptr_t num);
-
-int				ft_print_ptr(unsigned long long ptr);
-
-int				ft_print_u(unsigned int n);
-
-int				check_type(char ch);
-
-unsigned int	ft_print_di(int d);
-
-unsigned int	ft_print_str(char *str);
-
-unsigned int	ft_amin(va_list vl, const char format);
-
-int				ft_printf(const char *format, ...);
-
-char			*ft_strjoin3(const char *s1, const char *s2, const char *s3);
 
 #endif

@@ -6,26 +6,26 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:51:02 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 19:35:40 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:09:04 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*ft_getenv_aux(t_list *aux, char **var, int size_var)
+char	*ft_getenv_sub(t_list *sub, char **var, int size_var)
 {
 	int	total_size;
 
-	while (aux)
+	while (sub)
 	{
 		size_var = ft_strlen(*var);
-		total_size = ft_strlen(aux->content);
-		if (!(ft_strncmp(*var, aux->content, size_var)))
+		total_size = ft_strlen(sub->content);
+		if (!(ft_strncmp(*var, sub->content, size_var)))
 		{
 			free(*var);
-			return (ft_substr(aux->content, size_var, total_size - size_var));
+			return (ft_substr(sub->content, size_var, total_size - size_var));
 		}
-		aux = aux->next;
+		sub = sub->next;
 	}
 	free(*var);
 	return (NULL);
@@ -33,29 +33,29 @@ char	*ft_getenv_aux(t_list *aux, char **var, int size_var)
 
 char	*ft_getenv(const char *str, t_input *in)
 {
-	t_list	*aux;
+	t_list	*sub;
 	char	*var;
 	int		size_var;
 
-	aux = *in->env_list;
+	sub = *in->env_list;
 	var = NULL;
-	while (aux)
+	while (sub)
 	{
 		size_var = ft_strlen(str);
-		if (!(ft_strncmp(str, aux->content, size_var))
-			&& ((char *)aux->content)[size_var] == '\0')
+		if (!(ft_strncmp(str, sub->content, size_var))
+			&& ((char *)sub->content)[size_var] == '\0')
 		{
-			var = ft_strdup(aux->content);
-			free(aux->content);
-			aux->content = ft_strjoin(var, "=");
+			var = ft_strdup(sub->content);
+			free(sub->content);
+			sub->content = ft_strjoin(var, "=");
 			free(var);
 			return (ft_getenv(str, in));
 		}
-		aux = aux->next;
+		sub = sub->next;
 	}
-	aux = *in->env_list;
+	sub = *in->env_list;
 	var = ft_strjoin(str, "=");
-	return (ft_getenv_aux(aux, &var, size_var));
+	return (ft_getenv_sub(sub, &var, size_var));
 }
 
 void	init_basic_env(t_input *in, char **pwd)

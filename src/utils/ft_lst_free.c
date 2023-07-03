@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:27:22 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:41:39 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:42:16 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
 void	ft_lst_free(t_list *lst)
 {

@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:53:51 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/09 17:58:07 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:09:04 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	char_sp(char c)
 	return (1);
 }
 
-void	count_tokens_aux(t_input *in, char *s, int start)
+void	count_tokens_sub(t_input *in, char *s, int start)
 {
 	while (s[in->f.i] != '\0')
 	{
@@ -49,7 +49,7 @@ void	count_tokens_aux(t_input *in, char *s, int start)
 	}
 }
 
-void	count_tokens_aux2(t_input *in, char *s, int start)
+void	count_tokens_sub2(t_input *in, char *s, int start)
 {
 	if (char_sp(s[in->f.i]) && !in->f.single_q && !in->f.double_q)
 	{
@@ -80,7 +80,7 @@ int	count_tokens(char *s, t_input *in, int split)
 
 	start = 0;
 	if (!split)
-		count_tokens_aux(in, s, start);
+		count_tokens_sub(in, s, start);
 	if (split)
 	{
 		in->f.i = 0;
@@ -97,7 +97,7 @@ int	count_tokens(char *s, t_input *in, int split)
 			}
 			else if (!char_sp(s[in->f.i]))
 				start = 1;
-			count_tokens_aux2(in, s, start);
+			count_tokens_sub2(in, s, start);
 		}
 	}
 	return (in->f.count);

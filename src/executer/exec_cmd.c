@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:30:51 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:33:39 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:02:00 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	get_path(t_input *in)
 {
-	char	*aux;
+	char	*sub;
 
 	in->path_unset = 0;
-	aux = ft_getenv("PATH", in);
-	in->split_path = ft_split(aux, ':');
-	free(aux);
+	sub = ft_getenv("PATH", in);
+	in->split_path = ft_split(sub, ':');
+	free(sub);
 	if (!in->split_path)
 	{
 		in->path_unset = 1;
@@ -31,28 +31,28 @@ int	get_path(t_input *in)
 int	get_cmd_path(t_input *in)
 {
 	int		i;
-	char	*aux;
+	char	*sub;
 	char	*path;
 
 	i = -1;
 	while (in->split_path[++i])
 	{
-		aux = ft_strjoin(in->split_path[i], "/");
-		path = ft_strjoin(aux, in->split_in[0]);
+		sub = ft_strjoin(in->split_path[i], "/");
+		path = ft_strjoin(sub, in->split_in[0]);
 		if ((access(path, F_OK)) == 0 && !ft_strncmp(path, "/", 1))
 		{
 			in->cmd_path = ft_strdup(path);
-			free(aux);
+			free(sub);
 			free(path);
 			return (1);
 		}
-		free(aux);
+		free(sub);
 		free(path);
 	}
 	return (0);
 }
 
-char	**dup_new_env(char **matrix, int size)
+char	**dup_new_env(char **arrs, int size)
 {
 	char	**out;
 	int		i;
@@ -64,11 +64,11 @@ char	**dup_new_env(char **matrix, int size)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (matrix[i])
+	while (arrs[i])
 	{
-		if (ft_strchr(matrix[i], '='))
+		if (ft_strchr(arrs[i], '='))
 		{
-			out[j] = ft_strdup(matrix[i]);
+			out[j] = ft_strdup(arrs[i]);
 			j++;
 		}
 		i++;
@@ -94,8 +94,8 @@ void	exec_minishell(t_input *in)
 	}
 	new_env = dup_new_env(in->dup_env, size);
 	if (execve(in->split_in[0], in->split_in, new_env) == -1)
-		error_msg(in, ERR_CMD, 0, 0);
-	free_matrix(new_env);
+		error_msg(in, "command not found", 0, 0);
+	fr_arr(new_env);
 }
 
 void	exec_cmd(t_input *in)
@@ -107,8 +107,8 @@ void	exec_cmd(t_input *in)
 	else
 	{
 		if (in->path_unset == 0)
-			error_msg(in, ERR_CMD, 0, 0);
+			error_msg(in, "command not found", 0, 0);
 		else
-			error_msg(in, ERR_FILE, 0, 0);
+			error_msg(in, "No such file or directory", 0, 0);
 	}
 }

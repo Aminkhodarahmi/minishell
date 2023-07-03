@@ -6,11 +6,11 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:51:52 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:35:09 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:07:19 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	if_minishell(t_input *in)
 {
@@ -30,7 +30,7 @@ void	handler(int code)
 {
 	if (code == SIGINT)
 	{
-		g_exit_status = 1;
+		g_quit = 1;
 		write(2, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -43,12 +43,12 @@ void	handler2(int code)
 	if (code == SIGINT)
 	{
 		write(2, "\n", 1);
-		g_exit_status = 130;
+		g_quit = 130;
 	}
 	else if (code == SIGQUIT)
 	{
 		write(2, "Quit: 3\n", 8);
-		g_exit_status = 131;
+		g_quit = 131;
 	}
 }
 

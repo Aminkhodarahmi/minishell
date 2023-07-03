@@ -6,13 +6,13 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 19:26:57 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:36:44 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:08:30 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	cd_aux(t_input *in, char **pwd, char **home_path)
+void	cd_sub(t_input *in, char **pwd, char **home_path)
 {
 	if (*pwd)
 		update_env_var(in, "OLDPWD=", *pwd);
@@ -42,16 +42,16 @@ void	cd(t_input *in)
 	if (!in->split_in[1] || !(ft_strncmp(in->split_in[1], "", 2)))
 	{
 		if (chdir(home_path) == -1)
-			error_msg(in, ERR_HOME, 0, 0);
+			error_msg(in, "HOME not set", 0, 0);
 	}
 	else if (chdir(in->split_in[1]) == -1)
 	{
 		if (errno == EACCES)
-			error_msg(in, ERR_PERM, 0, 0);
+			error_msg(in, "Permission denied", 0, 0);
 		if (errno == ENAMETOOLONG)
-			error_msg(in, ERR_TOOLONG, 1, 0);
+			error_msg(in, "File name too long", 1, 0);
 		else
-			error_msg(in, ERR_FILE, 1, 0);
+			error_msg(in, "No such file or directory", 1, 0);
 	}
-	cd_aux(in, &pwd, &home_path);
+	cd_sub(in, &pwd, &home_path);
 }

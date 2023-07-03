@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_add_back.c                                  :+:      :+:    :+:   */
+/*   arr_add_back.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 12:29:32 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/20 14:06:07 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:02:00 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-char	**matrix_add_back(char **matrix, char *str)
+char	**arr_add_back(char **arrs, char *str)
 {
 	char	**out;
 	int		len;
@@ -21,22 +21,22 @@ char	**matrix_add_back(char **matrix, char *str)
 	i = -1;
 	out = NULL;
 	if (!str)
-		return (matrix);
-	len = matrix_len(matrix);
+		return (arrs);
+	len = arr_len(arrs);
 	out = malloc(sizeof(char *) * (len + 2));
 	out[len + 1] = NULL;
 	if (!out)
-		return (matrix);
-	while (++i < len && matrix[i] != NULL)
+		return (arrs);
+	while (++i < len && arrs[i] != NULL)
 	{
-		out[i] = ft_strdup(matrix[i]);
+		out[i] = ft_strdup(arrs[i]);
 		if (!out[i])
 		{
-			free_matrix(matrix);
-			free_matrix(out);
+			fr_arr(arrs);
+			fr_arr(out);
 		}
 	}
 	out[i] = ft_strdup(str);
-	free_matrix(matrix);
+	fr_arr(arrs);
 	return (out);
 }

@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:57:05 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 19:23:31 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:09:04 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	print_export(t_list **lst, int i)
 {
-	t_list	*aux;
+	t_list	*sub;
 	char	*str;
 
-	aux = *lst;
-	while (aux)
+	sub = *lst;
+	while (sub)
 	{
 		i = 0;
-		str = (char *)aux->content;
+		str = (char *)sub->content;
 		ft_putstr_fd("export ", 1);
 		while (str[i] != '=' && str[i] != '\0')
 		{
@@ -37,34 +37,34 @@ void	print_export(t_list **lst, int i)
 		}
 		else
 			write(1, "\n", 1);
-		aux = aux->next;
+		sub = sub->next;
 	}
 }
 
 void	env(t_input *in, int is_export)
 {
-	t_list	*aux;
+	t_list	*sub;
 
 	if (in->split_in[1] != NULL)
 	{
-		error_msg(in, ERR_FILE, 0, 0);
+		error_msg(in, "No such file or directory", 0, 0);
 		return ;
 	}
 	if (!is_export)
 	{
-		aux = (*in->env_list);
-		while (aux)
+		sub = (*in->env_list);
+		while (sub)
 		{
-			if (ft_strchr(aux->content, '='))
-				ft_putendl_fd((char *)aux->content, 1);
-			aux = aux->next;
+			if (ft_strchr(sub->content, '='))
+				ft_putendl_fd((char *)sub->content, 1);
+			sub = sub->next;
 		}
 	}
 	else
 	{
-		aux = ft_lstdup(*in->env_list);
-		ft_lst_sort(&aux, ft_strcmp);
-		print_export(&aux, is_export);
-		ft_lst_free(aux);
+		sub = ft_lstdup(*in->env_list);
+		ft_lst_sort(&sub, ft_strcmp);
+		print_export(&sub, is_export);
+		ft_lst_free(sub);
 	}
 }

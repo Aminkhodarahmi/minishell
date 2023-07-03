@@ -6,7 +6,7 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:36:25 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:33:15 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:46:06 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	exec_absolute(t_input *in)
 		dir = opendir(in->split_in[0]);
 		if (dir)
 		{
-			error_msg(in, IS_DIR, 0, 0);
+			error_msg(in, "is a directory", 0, 0);
 			closedir(dir);
 		}
 		else
@@ -29,11 +29,11 @@ void	exec_absolute(t_input *in)
 			if ((access(in->split_in[0], X_OK)) == 0)
 				execve(in->split_in[0], in->split_in, in->dup_env);
 			else
-				error_msg(in, ERR_PERM, 0, 1);
+				error_msg(in, "Permission denied", 0, 1);
 		}
 	}
 	else
-		error_msg(in, ERR_FILE, 0, 1);
+		error_msg(in, "No such file or directory", 0, 1);
 }
 
 int	is_builtin2(t_input *in)

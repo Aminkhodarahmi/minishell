@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_len.c                                       :+:      :+:    :+:   */
+/*   ft_lstdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 12:30:15 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/15 18:42:14 by akhodara         ###   ########.fr       */
+/*   Created: 2023/06/07 12:27:59 by akhodara          #+#    #+#             */
+/*   Updated: 2023/06/25 12:42:25 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../../inc/minishell.h"
 
-int	matrix_len(char **matrix)
+t_list	*ft_lstdup(t_list *sub)
 {
-	int	i;
+	t_list	*new_lst;
+	t_list	*tmp;
+	t_list	*lst;
 
-	i = 0;
-	while (matrix && matrix[i])
-		i++;
-	return (i);
+	new_lst = 0;
+	lst = sub;
+	while (lst)
+	{
+		tmp = ft_lstnew(lst->content);
+		if (!tmp)
+			return (0);
+		ft_lstadd_back(&new_lst, tmp);
+		lst = lst->next;
+	}
+	return (new_lst);
 }

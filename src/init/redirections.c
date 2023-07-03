@@ -6,18 +6,18 @@
 /*   By: akhodara <akhodara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:14:44 by akhodara          #+#    #+#             */
-/*   Updated: 2023/06/19 15:28:44 by akhodara         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:16:30 by akhodara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-void	infile_aux(t_input *in)
+void	infile_sub(t_input *in)
 {
 	if (!is_builtin(in))
 	{
 		if (dup2(in->fd_in, STDIN_FILENO) == -1)
-			error_msg(in, ERR_DUP, -2, 0);
+			error_msg(in, "Dup error", -2, 0);
 	}
 	close(in->fd_in);
 	in->is_infile = 1;
@@ -32,11 +32,11 @@ int	infile(t_input *in, int i)
 	if (in->fd_in == -1)
 	{
 		if (errno == EACCES)
-			error_msg(in, ERR_PERM, i + 1, 0);
+			error_msg(in, "Permission denied", i + 1, 0);
 		else if (!(ft_strncmp(in->split_in[i], "<<", 3)) && errno == 2)
-			error_msg(in, ERR_HDOC, -1, 0);
+			error_msg(in, "here_doc: could not find here_doc file", -1, 0);
 		else
-			error_msg(in, ERR_FILE, i + 1, 0);
+			error_msg(in, "No such file or directory", i + 1, 0);
 		return (1);
 	}
 	else
@@ -47,17 +47,17 @@ int	infile(t_input *in, int i)
 			close(in->fd_in);
 			return (1);
 		}
-		infile_aux(in);
+		infile_sub(in);
 	}
 	return (0);
 }
 
-void	outfile_aux(t_input *in)
+void	outfile_sub(t_input *in)
 {
 	if (!in->is_outfile)
 		in->back_stdout = dup(STDOUT_FILENO);
 	if (dup2(in->fd_out, STDOUT_FILENO) == -1)
-		error_msg(in, ERR_DUP, -2, 0);
+		error_msg(in, "Dup error", -2, 0);
 	close(in->fd_out);
 	in->is_outfile = 1;
 }
@@ -73,9 +73,9 @@ int	outfile(t_input *in, int i)
 	if (in->fd_out == -1)
 	{
 		if (errno == EACCES)
-			error_msg(in, ERR_PERM, i + 1, 0);
+			error_msg(in, "Permission denied", i + 1, 0);
 		else
-			error_msg(in, ERR_FILE, i + 1, 0);
+			error_msg(in, "No such file or directory", i + 1, 0);
 		return (1);
 	}
 	else
@@ -86,12 +86,12 @@ int	outfile(t_input *in, int i)
 			close(in->fd_out);
 			return (1);
 		}
-		outfile_aux(in);
+		outfile_sub(in);
 	}
 	return (0);
 }
 
-void	check_redirs(t_input *in)
+void	verify_redirs(t_input *in)
 {
 	int	i;
 
